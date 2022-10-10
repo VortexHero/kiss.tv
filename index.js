@@ -51,7 +51,7 @@ $('#name2').autocomplete({
 
 if (!(onMobile() && navigator.share) && navigator.clipboard) {
   document.getElementById('shareButton').innerText = 'Copy Link';
-} else {
+} else if (!(onMobile() && navigator.share)) {
   document.getElementById('shareButton').classList.add('d-none');
 }
 
