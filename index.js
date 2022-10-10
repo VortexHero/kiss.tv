@@ -55,12 +55,85 @@ if (!(onMobile() && navigator.share) && navigator.clipboard) {
   document.getElementById('shareButton').classList.add('d-none');
 }
 
+if (
+  new URLSearchParams(window.location.search).has('name1') &&
+  new URLSearchParams(window.location.search).has('name2')
+) {
+  showOuput(
+    new URLSearchParams(window.location.search).get('name1'),
+    new URLSearchParams(window.location.search).get('name2')
+  );
+}
+
 document.getElementById('inputForm').addEventListener('submit', (event) => {
   event.preventDefault();
-  document.getElementById('inputFormSubmitButton').disabled = true;
 
-  let name1 = document.getElementById('name1').value;
-  let name2 = document.getElementById('name2').value;
+  showOuput(
+    document.getElementById('name1').value,
+    document.getElementById('name2').value
+  );
+});
+
+document.getElementById('newButton').addEventListener('click', (event) => {
+  document.getElementById('name1').value = '';
+  document.getElementById('name2').value = '';
+  document.getElementById('outputContent').innerHTML = '';
+
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.delete('name1');
+  urlParams.delete('name2');
+  window.history.pushState({}, '', '?' + urlParams);
+
+  document.getElementById('inputFormSubmitButton').disabled = false;
+  document.getElementById('output').classList.add('d-none');
+  document.getElementById('input').classList.remove('d-none');
+});
+
+document.getElementById('shareButton').addEventListener('click', (event) => {
+  let url = window.location.href;
+
+  if (onMobile() && navigator.share) {
+    navigator.share({
+      url: url,
+    });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url);
+  }
+});
+
+const videoModal = document.getElementById('videoModal');
+videoModal.addEventListener('show.bs.modal', (event) => {
+  const button = event.relatedTarget;
+  const url = button.getAttribute('data-bs-url');
+
+  let urlObject = new URL(url);
+  if (urlObject.hostname === 'clips.twitch.tv') {
+    let videoId = urlObject.pathname.split('/').pop();
+    document.getElementById(
+      'videoModalBody'
+    ).innerHTML = `<iframe class="w-100" height="262" src="https://clips.twitch.tv/embed?clip=${videoId}&parent=${
+      window.location.host.split(':')[0]
+    }" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
+    `;
+  }
+
+  if (urlObject.hostname === 'www.youtube.com') {
+    let videoId = urlObject.searchParams.get('v');
+    if (!videoId) {
+      videoId = urlObject.pathname.split('/').pop();
+    }
+    document.getElementById(
+      'videoModalBody'
+    ).innerHTML = `<iframe class="w-100" height="262" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'`;
+  }
+});
+
+videoModal.addEventListener('hidden.bs.modal', (event) => {
+  document.getElementById('videoModalBody').innerHTML = '';
+});
+
+function showOuput(name1, name2) {
+  document.getElementById('inputFormSubmitButton').disabled = true;
 
   document.getElementById('name1').value = '';
   document.getElementById('name2').value = '';
@@ -152,65 +225,7 @@ document.getElementById('inputForm').addEventListener('submit', (event) => {
   document.getElementById('input').classList.add('d-none');
   document.getElementById('output').classList.remove('d-none');
   document.getElementById('inputFormSubmitButton').disabled = false;
-});
-
-document.getElementById('newButton').addEventListener('click', (event) => {
-  document.getElementById('name1').value = '';
-  document.getElementById('name2').value = '';
-  document.getElementById('outputContent').innerHTML = '';
-
-  const urlParams = new URLSearchParams(window.location.search);
-  urlParams.delete('name1');
-  urlParams.delete('name2');
-  window.history.pushState({}, '', '?' + urlParams);
-
-  document.getElementById('inputFormSubmitButton').disabled = false;
-  document.getElementById('output').classList.add('d-none');
-  document.getElementById('input').classList.remove('d-none');
-});
-
-document.getElementById('shareButton').addEventListener('click', (event) => {
-  let url = window.location.href;
-
-  if (onMobile() && navigator.share) {
-    navigator.share({
-      url: url,
-    });
-  } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(url);
-  }
-});
-
-const videoModal = document.getElementById('videoModal');
-videoModal.addEventListener('show.bs.modal', (event) => {
-  const button = event.relatedTarget;
-  const url = button.getAttribute('data-bs-url');
-
-  let urlObject = new URL(url);
-  if (urlObject.hostname === 'clips.twitch.tv') {
-    let videoId = urlObject.pathname.split('/').pop();
-    document.getElementById(
-      'videoModalBody'
-    ).innerHTML = `<iframe class="w-100" height="262" src="https://clips.twitch.tv/embed?clip=${videoId}&parent=${
-      window.location.host.split(':')[0]
-    }" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
-    `;
-  }
-
-  if (urlObject.hostname === 'www.youtube.com') {
-    let videoId = urlObject.searchParams.get('v');
-    if (!videoId) {
-      videoId = urlObject.pathname.split('/').pop();
-    }
-    document.getElementById(
-      'videoModalBody'
-    ).innerHTML = `<iframe class="w-100" height="262" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'`;
-  }
-});
-
-videoModal.addEventListener('hidden.bs.modal', (event) => {
-  document.getElementById('videoModalBody').innerHTML = '';
-});
+}
 
 function onMobile() {
   let check = false;
