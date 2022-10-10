@@ -1,4 +1,24 @@
-import data from './data.json';
+let data = [
+  [
+    'Ludwig',
+    'Austin',
+    'https://clips.twitch.tv/SaltyZealousPastaSpicyBoy-QXmiElv_WTF8Y8yO',
+  ],
+  ['Ludwig', 'xQc', 'https://www.youtube.com/watch?v=Nz_8KDHROmA'],
+  ['Ludwig', 'Karl', 'https://www.youtube.com/watch?v=5c2AXjgSzPU'],
+  ['Ludwig', 'Hasan', 'https://www.youtube.com/shorts/BBIibFIwbno'],
+  ['Ludwig', 'Slime', 'https://www.youtube.com/watch?v=MFurDxxqP-A'],
+  ['Ludwig', 'Rich', 'https://www.youtube.com/watch?v=W_WLeLMdoOA'],
+  ['Austin', 'xQc', 'https://www.youtube.com/watch?v=YZ_394HQiic'],
+  ['Austin', 'Karl', 'https://www.youtube.com/watch?v=MLQlR3fOxJM'],
+  ['Austin', 'QT', 'https://www.youtube.com/watch?v=Pir6nXaUMbM'],
+  ['Austin', 'Ted', 'https://www.youtube.com/watch?v=o2_6abppodU'],
+  ['Austin', 'Schlatt', 'https://www.youtube.com/watch?v=HLAdmL4WOAc'],
+  ['Austin', 'Rich', 'https://www.youtube.com/watch?v=AtIJEHwRArQ'],
+  ['Karl', 'Hasan', 'https://www.youtube.com/watch?v=V-qxssdbjGk'],
+  ['Hasan', 'Will', 'https://www.youtube.com/watch?v=rtMc65YQsEc'],
+  ['Rich', 'Cyr', null],
+];
 
 let adjList = {};
 
