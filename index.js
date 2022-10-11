@@ -115,16 +115,16 @@ videoModal.addEventListener('show.bs.modal', (event) => {
       window.location.host.split(':')[0]
     }" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
     `;
-  }
-
-  if (urlObject.hostname === 'www.youtube.com') {
+  } else if (urlObject.hostname === 'www.youtube.com') {
     let videoId = urlObject.searchParams.get('v');
     if (!videoId) {
       videoId = urlObject.pathname.split('/').pop();
     }
     document.getElementById(
       'videoModalBody'
-    ).innerHTML = `<iframe class="w-100" height="262" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'`;
+    ).innerHTML = `<iframe class="w-100" height="262" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  } else {
+    videoModalBody.innerHTML = `<p><a href="${url}" target="_blank">${url}</a></p>`;
   }
 });
 
